@@ -1,0 +1,55 @@
+#!/bin/env snakemake
+
+samfile = ['file']
+infile = "{wcard}.sam"
+infile_ok = infile + ".ok"
+outfile_a = "{wcard}.dedup.bam"
+outfile_a_ok = outfile_a + ".ok"
+outfile_b = "{wcard}.dedup.bai"
+outfile_b_ok = outfile_b + ".ok"
+
+infile_cleaned = "{wcard}.cleanedSam"
+infile_cleaned_ok = infile_cleaned + ".ok"
+infile_sorted = "{wcard}.cleanedSortedSam"
+infile_sorted_ok = infile_sorted + ".ok"
+
+temp_dir = "~/faststorage/.temp"
+
+rule picard_all:
+    input:
+        expand(outfile_a, wcard = samfile),
+        expand(outfile_b, wcard = samfile)
+
+rule picard_clean:
+    input: a = infile, ok = infile_ok
+    output: a = temp(infile_cleaned), ok = temp(infile_cleaned_ok)
+    shell:
+        "picard CleanSam "
+        "INPUT={input.a} OUTPUT={output.a} && touch {output.ok}"
+rule picard_sort:
+    input: a = infile_cleaned, ok = infile_cleaned_ok
+    params: temp_dir
+    output: a = temp(infile_sorted), ok = temp(infile_sorted_ok)
+    shell:
+        "picard SortSam "
+        "INPUT={input.a} OUTPUT={output.a} "
+        "SORT_ORDER=coordinate "
+        "TMP_DIR={params} && touch {output.ok}"
+rule picard_markduplicates:
+    input: a = infile_sorted, ok = infile_sorted_ok
+    params: temp_dir
+    output: a = temp(outfile_a),
+            ok = temp(outfile_a_ok)
+    shell:
+        "picard MarkDuplicates "
+        "INPUT={input.a} OUTPUT={output.a} "
+        "METRICS_FILE=metrics.txt "
+        "TMP_DIR={params} && touch {output.ok}"
+rule picard_index:
+    input: a = outfile_a, ok = outfile_a_ok
+    params: temp_dir
+    output: a = temp(outfile_b), ok = temp(outfile_b_ok)
+    shell:
+        "picard BuildBamIndex "
+        "INPUT={input.a} "
+        "TMP_DIR={params} && touch {output.ok}"

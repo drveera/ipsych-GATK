@@ -1,0 +1,4 @@
+include: "bamtosam.snake"
+include: "picard.snake"
+include: "gatk_pre.snake"
+include: "combine_gvcf.snake"

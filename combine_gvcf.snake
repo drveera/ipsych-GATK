@@ -1,0 +1,36 @@
+#!/bin/env python
+
+wcard = config['gvcflist']
+mergename = ['file']
+ref_genome = '/home/veera/faststorage/resources/reference_genome/human.b37.fasta'
+
+gvcf = "{wcard}.chr_{{chrom}}.rawGvcf"
+gvcf_list = "chrom_{chrom}.gvcf.list"
+
+mergedGvcf = "{mergename}.chr_{chrom}.mergedGvcf"
+mergedGvcf_idx = mergedGvcf + ".idx"
+chr_list = list(range(1,23)) + ['X','Y','MT']
+
+finalvcf = "{mergename}.chr_{chrom}.vcf"
+
+rule combineGvcf_all:
+    input: #expand(mergedGvcf,mergename = mergename, chrom = chr_list)
+        expand(finalvcf, chrom = chr_list, mergename = mergename)
+    
+rule gvcf_create_list:
+    input: expand(gvcf,wcard = wcard)
+    output: temp(gvcf_list)
+    shell:
+        "for i in {input}; do ls $i >> {output}; done"
+
+rule gvcf_combine_cwise:
+    input: a = expand(gvcf,wcard = wcard), mergelist = gvcf_list, r = ref_genome
+    output: a = mergedGvcf, b = mergedGvcf_idx
+    shell:
+        "gatk -T CombineGVCFs -V {input.mergelist} -R {input.r} -o {output.a}"
+
+rule genotype_gvcf:
+    input: a = mergedGvcf, r = ref_genome
+    output: finalvcf
+    shell:
+         "gatk -T GenotypeGVCFs -nt 8 -R {input.r} -L {wildcards.chrom} --variant {input.a} -o {output}"

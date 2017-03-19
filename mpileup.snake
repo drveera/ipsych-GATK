@@ -1,0 +1,21 @@
+#!/bin/env snakemake
+bamfile = ['file']
+
+infile = "{wcard}.bam"
+outfile_bcf = "{wcard}.bcf"
+outfile = "{wcard}.vcf"
+
+ref_genome = '/home/veera/faststorage/resources/reference_genome/human.b37.fasta'
+
+rule mpileup_all:
+    input: expand(outfile, wcard = bamfile)
+
+rule mpileup_call:
+    input: a = infile, r = ref_genome
+    output: temp(outfile_bcf)
+    shell:
+        "samtools mpileup -u -f {input.r} {input.a} > {output}"
+rule mpileup_convert:
+    input: outfile_bcf
+    output: outfile
+    shell: "bcftools view -v -c -g 'hom' {input} > {output}"

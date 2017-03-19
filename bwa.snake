@@ -1,0 +1,42 @@
+#!/bin/env snakemake
+from os.path import basename
+
+########USER PARAMS##################
+#bwa_ref = config['--ref-genome']
+bwa_ref = '/home/veera/faststorage/resources/reference_genome/human.b37.fasta'
+
+#################WILDCARD##########
+#bwa_fq = config['--fqlist']
+#bwa_fq = process_list(bwa_fq)
+bwa_fq = ['file']
+
+outfile = "{wcard}.sam"
+outfile_ok = outfile + ".ok"
+outfile_base = "{wcard}"
+###################################
+fq1 = "{wcard}.fq1"
+fq2 = "{wcard}.fq2"
+sai1 = "{wcard}.fq1.sai"
+sai1_ok = sai1 + ".ok"
+sai2 = "{wcard}.fq2.sai"
+sai2_ok = sai2 + ".ok"
+
+rule gseq_bwa_all:
+    input: expand(outfile, wcard = bwa_fq)
+
+rule gseq_bwa_aln_read1:
+    input: a = fq1, r = bwa_ref
+    output: a = temp(sai1), b = temp(sai1_ok)
+    params: bwa_ref
+    shell: "bwa aln -t 4 {input.r} {input.a} > {output.a} && touch {output.b}"
+rule gseq_bwa_aln_read2:
+    input: b = fq2, r = bwa_ref
+    output: a = temp(sai2), b = temp(sai2_ok)
+    shell: "bwa aln -t 4 {input.r} {input.b} > {output.a} && touch {output.b}"
+
+rule gseq_bwa_align:
+    input: a = sai1, a_ok = sai1_ok, b= sai2, b_ok = sai2_ok, c = fq1, d = fq2, r = bwa_ref
+    params: lambda wildcards: basename(wildcards.wcard)
+    output: a = temp(outfile), b = temp(outfile_ok)
+    shell: "bwa sampe -r '@RG\tID:{params}\tSM:{params}\tPL:ILLUMINA\tLB:iPsych' "
+           "{input.r} {input.a} {input.b}  {input.c} {input.d} > {output.a} && touch {output.b}"

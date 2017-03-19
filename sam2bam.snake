@@ -1,0 +1,24 @@
+#!/bin/env snakemake
+samfile = ["file"]
+
+infile = "{wcard}.sam"
+
+outfile_a = "{wcard}.bam"
+outfile_b = "{wcard}.bai"
+
+
+rule sam2bam_all:
+    input:
+        expand(outfile_a, wcard = samfile),expand(outfile_b,wcard = samfile)
+rule sam2bam_convert:
+    input: infile
+    output: temp("{wcard}.inter.bam")
+    shell: "samtools view -b -S -o {output} {input}"
+rule sam2bam_sort:
+    input: "{wcard}.inter.bam"
+    output: outfile_a            
+    shell: "samtools sort {input} {wildcards.wcard}"
+rule sam2bam_index:
+    input: outfile_a
+    output: outfile_b
+    shell: "samtools index {input} {output}"

@@ -1,0 +1,14 @@
+#!/bin/env snakemake
+
+bamfile = ['file']
+infilebam = "{wcard}.bam"
+infilesam = "{wcard}.sam"
+infilesam_ok = infilesam + ".ok"
+
+rule all:
+    input: expand(infilesam,wcard = bamfile)
+           
+rule bamtosam:
+    input: infilebam
+    output: a = temp(infilesam), ok = infilesam_ok
+    shell:"samtools view -h -o {output.a} {input} && touch {output.ok}"

@@ -1,0 +1,4 @@
+{
+    "pfix_bwa":"sample",
+    "--ref-genome":"hg19"
+}

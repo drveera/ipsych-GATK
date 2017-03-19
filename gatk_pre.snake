@@ -1,0 +1,75 @@
+#!/bin/env snakemake
+
+picardfile = ['file']
+
+###GATK FILES####
+ref_genome = '/home/veera/faststorage/resources/reference_genome/human.b37.fasta'
+gold_indel = '/data/refseq/tooldata/GATKbundle/2.8/b37/Mills_and_1000G_gold_standard.indels.b37.vcf'
+dbsnp = '/data/refseq/tooldata/GATKbundle/2.8/b37/dbsnp_138.b37.vcf'
+###GATK settings####
+padding = "100"
+###INPUT FILE ########
+infile = "{wcard}.dedup.bam"
+infile_ok = infile + ".ok"
+infile_index = "{wcard}.dedup.bai"
+infile_index_ok = infile_index + ".ok"
+######INTERMEDIATE FILES######
+realign_targets = "{wcard}.chr_{chrom}.realignment.targets.list"
+realign_targets_ok = realign_targets + ".ok"
+realigned_bam = "{wcard}.chr_{chrom}.realigned.bam"
+realigned_bam_ok = realigned_bam + ".ok"
+realigned_bai = "{wcard}.chr_{chrom}.realigned.bai"
+recal_table = "{wcard}.chr_{chrom}.recal.table"
+recal_table_ok = recal_table + ".ok"
+post_recal_table = "{wcard}.chr_{chrom}.post.recal.table"
+recal_bam = "{wcard}.chr_{chrom}.recal.bam"
+recal_bai = "{wcard}.chr_{chrom}.recal.bai"
+#########OUTPUT FILE########
+outfile = "{wcard}.chr_{chrom}.rawGvcf"
+outfile_idx = "{wcard}.chr_{chrom}.rawGvcf.idx"
+##PARAMS#####
+chr_list = list(range(1,23)) + ['X','Y','MT']
+
+##
+rule gatk_pre_all:
+    input: expand(outfile, wcard = picardfile, chrom = chr_list)
+
+realign_indel = "gatk -T RealignerTargetCreator -nt 4 -R {input.r} -L {wildcards.chrom} --interval_padding {params.padding} \
+-I {input.a} -known {input.gindel} -o {output.a} "
+
+rule gatk_realign_indel:
+    input: a = infile, aok = infile_ok, b = infile_index, bok = infile_index_ok, r = ref_genome, gindel = gold_indel
+    params: padding = padding
+    output: a = temp(realign_targets), ok = temp(realign_targets_ok)
+    shell:
+        f"{realign_indel}" + "&& touch {output.ok} ||" + f"{realign_indel} -fixMisencodedQuals" + "&& touch {output.ok}"
+
+realign_command = "gatk -T IndelRealigner -R {input.r} -I {input.a} -targetIntervals {input.ti} -known {input.gindel} -o {output.a}"
+rule gatk_realign_TI:
+    input: a = infile, aok = infile_ok, b = infile_index, bok = infile_index_ok, ti = realign_targets, r = ref_genome, gindel = gold_indel
+    output: a = temp(realigned_bam), ok = temp(realigned_bam_ok), b = temp(realigned_bai)
+    run:
+        shell(f"{realign_command} && touch {output.ok}  || {realign_command} -fixMisencodedQuals && touch {output.ok}")
+        
+rule gatk_cov_pattern:
+    input: a = realigned_bam, b = realigned_bai, ok = realigned_bam_ok, r = ref_genome, gindel = gold_indel, dbsnp = dbsnp
+    output: a = temp(recal_table), ok = temp(recal_table_ok)
+    shell:
+        "gatk -T BaseRecalibrator "
+        "-nct 4 -R {input.r} -I {input.a} -knownSites {input.dbsnp} -knownSites {input.gindel} "
+        "-o {output.a} && touch {output.ok}"
+
+rule gatk_apply:
+    input: a = infile, b = infile_index, r = ref_genome, recal = recal_table
+    output: a = temp(recal_bam), b = temp(recal_bai)
+    shell:
+        "gatk -T PrintReads "
+        "-nct 4 -R {input.r} -I {input.a} -BQSR {input.recal} -o {output.a} "
+
+rule gatk_gvcf_step1:
+    input: a= recal_bam, b = recal_bai, r = ref_genome,
+    params:  padding = padding
+    output: a = temp(outfile), b = temp(outfile_idx)
+    shell: "gatk -T HaplotypeCaller -nct 4 -R {input.r} -L {wildcards.chrom} --interval_padding {params.padding} "
+           "-I {input.a} --emitRefConfidence GVCF -o {output.a} "
+           "-variant_index_type LINEAR -variant_index_parameter 128000"

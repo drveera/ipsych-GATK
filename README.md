@@ -7,4 +7,14 @@ Run GATK Exome best practice workflow in iPSYCH
 
 ## Start with FASTQ files
 
+```
+ipsych-GATK --fastqlist=FILE --out=NAME
+
+```
+
 ## Start with BAM files
+
+```
+ipsych-GATK --bamlist=FILE --out=NAME
+
+```

@@ -24,7 +24,15 @@ Unzip and cd in to the folder. then run `python setup.py install`
 
 Install docopt `pip install docopt`
 
+Clone the repository `git clone https://github.com/drveera/ipsych-GATK.git` 
 
+cd in to the repo folder `cd ipsych-GATK`
+
+Add an alias to the pipeline script to your `.bashrc` file
+```
+echo "alias ipsych-gatk='$PWD/gatk.py'
+source ~/.bashrc
+```
 # Running the pipeline
 
 ## Start with FASTQ files

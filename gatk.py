@@ -35,7 +35,7 @@ if arguments['--fqlist'] is not None:
     gvcflist = [sub(".fq1$","",i) for i in gvcflist]
     d = {}
     for i in gvcflist:
-        d[basename(i)] = [i+".fq1",i+"fq2"]
+        d[basename(i)] = [i+".fq1",i+".fq2"]
     arguments['gvcflist'] = d
     with open(f"{outname}.snake","w") as outfile:
         outfile.write(f"include: '{sdir}/bwa.snake' \n")

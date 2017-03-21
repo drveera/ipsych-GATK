@@ -34,5 +34,10 @@
     {
 	"cores":"4",
 	"mem":"16g"
+    },
+    "genotype_gvcf":
+    {
+	"cores":"16",
+	"mem":"128g"
     }
 }

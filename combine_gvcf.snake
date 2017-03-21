@@ -33,4 +33,4 @@ rule genotype_gvcf:
     input: a = mergedGvcf, r = ref_genome
     output: finalvcf
     shell:
-         "gatk -T GenotypeGVCFs -nt 8 -R {input.r} -L {wildcards.chrom} --variant {input.a} -o {output}"
+         "gatk -T GenotypeGVCFs -nt 16 -R {input.r} -L {wildcards.chrom} --variant {input.a} -o {output}"

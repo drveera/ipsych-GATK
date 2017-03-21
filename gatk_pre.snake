@@ -60,7 +60,7 @@ rule gatk_cov_pattern:
         "-o {output.a} && touch {output.ok}"
 
 rule gatk_apply:
-    input: a = infile, b = infile_index, r = ref_genome, recal = recal_table
+    input: a = realigned_bam, b = realigned_bai, ok = realigned_bam_ok, r = ref_genome, recal = recal_table
     output: a = temp(recal_bam), b = temp(recal_bai)
     shell:
         "gatk -T PrintReads "

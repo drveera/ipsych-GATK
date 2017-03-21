@@ -1,14 +1,31 @@
 #!/bin/env snakemake
+from os.path import basename
 
 bamfile = ['file']
 infilebam = "{wcard}.bam"
+cleanedbam = "{wcard}.cleanedbam"
+cleanedbam_ok = cleanedbam + ".ok"
+infileRGbam = "{wcard}.RGbam"
+infileRGbam_ok = infileRGbam + ".ok"
 infilesam = "{wcard}.sam"
 infilesam_ok = infilesam + ".ok"
 
 rule all:
     input: expand(infilesam,wcard = bamfile)
-           
-rule bamtosam:
+rule cleanbam:
     input: infilebam
+    output: a = temp(cleanedbam), ok = temp(cleanedbam_ok)
+    shell:
+        "picard CleanSam "
+        "INPUT={input} OUTPUT={output.a} && touch {output.ok}"
+rule addreadGroup:
+    input: a = cleanedbam, ok = cleanedbam_ok
+    output: a = temp(infileRGbam), ok = temp(infileRGbam_ok)
+    params: lambda wildcards: basename(wildcards.wcard)
+    shell:
+        "picard AddOrReplaceReadGroups I={input} O={output.a} "
+        "RGID={params} RGSM={params} RGLB=iPSYCH RGPL=ILLUMINA RGPU=ILLUMINA && touch {output.ok}"
+rule bamtosam:
+    input: a = infileRGbam, ok = infileRGbam_ok
     output: a = temp(infilesam), ok = infilesam_ok
     shell:"samtools view -h -o {output.a} {input} && touch {output.ok}"

@@ -2,8 +2,7 @@
 
 wcard = config['gvcflist']
 mergename = ['file']
-ref_genome = '/home/veera/faststorage/resources/reference_genome/human.b37.fasta'
-
+ref_genome = '/data/refseq/tooldata/GATKbundle/2.8/b37/human_g1k_v37.fasta'
 gvcf = "{wcard}.chr_{{chrom}}.rawGvcf"
 gvcf_list = "chrom_{chrom}.gvcf.list"
 

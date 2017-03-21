@@ -3,7 +3,7 @@ from os.path import basename
 
 ########USER PARAMS##################
 #bwa_ref = config['--ref-genome']
-bwa_ref = '/home/veera/faststorage/resources/reference_genome/human.b37.fasta'
+bwa_ref = '/data/refseq/tooldata/GATKbundle/2.8/b37/human_g1k_v37.fasta'
 
 #################WILDCARD##########
 #bwa_fq = config['--fqlist']

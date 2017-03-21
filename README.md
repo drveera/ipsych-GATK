@@ -30,7 +30,7 @@ cd in to the repo folder `cd ipsych-GATK`
 
 Add an alias to the pipeline script to your `.bashrc` file
 ```
-echo "alias ipsych-gatk='$PWD/gatk.py'
+echo "alias ipsych-gatk='$PWD/gatk.py'" >> ~/.bashrc
 source ~/.bashrc
 ```
 # Running the pipeline

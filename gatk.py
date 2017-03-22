@@ -83,7 +83,7 @@ if arguments['--nojob'] or arguments['--dry-run']:
                 f"export _JAVA_OPTIONS='-Xms8G -Xmx8G' \n" 
     with open(f"{outname}.master.sh","w") as outfile:
         outfile.write(jobscript)
-    subprocess.call(["bash", outname+".master.sh"])
+    subprocess.call(["source", outname+".master.sh"])
     if not arguments['--dry-run']:
         subprocess.call(["snakemake", "-j 999", "-s", f"{outname}.snake", "--configfile", f"{outname}.config.json"])
     else:

@@ -2,9 +2,9 @@
     "--fqlist": "fq1.list",
     "--bamlist": null,
     "--out": "test",
-    "--nojob": true,
-    "--dry-run": false,
+    "--dry-run": true,
     "--chr": "4",
+    "--nojob": false,
     "gvcflist": {
         "cigar-test": [
             "fq/cigar-test.fq1",

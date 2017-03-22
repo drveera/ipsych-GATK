@@ -1,1 +1,0 @@
-bwa aln -t 4 /data/refseq/tooldata/GATKbundle/2.8/b37/human_g1k_v37.fasta fq/cigar-test.fq1 fq/cigar-test.fq2 > cigar-test.fq1.sai && touch cigar-test.fq1.sai.ok

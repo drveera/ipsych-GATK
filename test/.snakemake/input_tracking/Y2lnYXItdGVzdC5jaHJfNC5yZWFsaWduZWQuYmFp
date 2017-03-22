@@ -1,7 +1,0 @@
-/data/refseq/tooldata/GATKbundle/2.8/b37/Mills_and_1000G_gold_standard.indels.b37.vcf
-/data/refseq/tooldata/GATKbundle/2.8/b37/human_g1k_v37.fasta
-cigar-test.chr_4.realignment.targets.list
-cigar-test.dedup.bai
-cigar-test.dedup.bai.ok
-cigar-test.dedup.bam
-cigar-test.dedup.bam.ok

@@ -74,10 +74,13 @@ with open(f'{outname}.config.json', 'w') as outfile:
 
 if arguments['--nojob'] or arguments['--dry-run']:
     jobscript = f"#!/bin/sh \n" \
+                f"source /com/extra/samtools/LATEST/load.sh \n" \
                 f"source /com/extra/bwa/LATEST/load.sh \n" \
                 f"source /com/extra/picard/LATEST/load.sh \n" \
                 f"source /com/extra/R/3.3/load.sh \n" \
-                f"source /com/extra/GATK/LATEST/load.sh \n" 
+                f"source /com/extra/GATK/LATEST/load.sh \n" \
+                f"source /com/extra/Java/8/load.sh \n" \
+                f"export _JAVA_OPTIONS='-Xms8G -Xmx8G' \n" 
     with open(f"{outname}.master.sh","w") as outfile:
         outfile.write(jobscript)
     subprocess.call(["bash", outname+".master.sh"])

@@ -1,0 +1,1 @@
+bwa sampe -r '@RG	ID:cigar-test	SM:cigar-test	PL:ILLUMINA	LB:iPsych' /data/refseq/tooldata/GATKbundle/2.8/b37/human_g1k_v37.fasta cigar-test.fq1.sai cigar-test.fq2.sai  fq/cigar-test.fq1 fq/cigar-test.fq2 > cigar-test.sam && touch cigar-test.sam.ok

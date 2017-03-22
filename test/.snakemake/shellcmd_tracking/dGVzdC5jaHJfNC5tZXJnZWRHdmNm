@@ -1,0 +1,1 @@
+gatk -T CombineGVCFs -V chrom_4.gvcf.list -R /data/refseq/tooldata/GATKbundle/2.8/b37/human_g1k_v37.fasta -o test.chr_4.mergedGvcf

@@ -1,0 +1,14 @@
+{
+    "--fqlist": "fq1.list",
+    "--bamlist": null,
+    "--out": "test",
+    "--nojob": true,
+    "--dry-run": false,
+    "--chr": "4",
+    "gvcflist": {
+        "cigar-test": [
+            "fq/cigar-test.fq1",
+            "fq/cigar-test.fq2"
+        ]
+    }
+}

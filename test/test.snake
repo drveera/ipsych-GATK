@@ -1,0 +1,7 @@
+include: '/faststorage/home/veera/pipelines/ipsych-GATK/bwa.snake' 
+include: '/faststorage/home/veera/pipelines/ipsych-GATK/picard.snake' 
+include: '/faststorage/home/veera/pipelines/ipsych-GATK/gatk_pre.snake' 
+include: '/faststorage/home/veera/pipelines/ipsych-GATK/combine_gvcf.snake' 
+ 
+rule test_all:
+	 input:'test.chr_4.vcf',

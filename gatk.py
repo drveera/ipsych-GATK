@@ -72,25 +72,33 @@ else:
 with open(f'{outname}.config.json', 'w') as outfile:
         json.dump(arguments, outfile, indent=4)
 
+
+jobscript = f"#!/bin/bash \n" \
+            f"source /com/extra/samtools/LATEST/load.sh \n" \
+            f"source /com/extra/bwa/LATEST/load.sh \n" \
+            f"source /com/extra/picard/2.7.1/load.sh \n" \
+            f"source /com/extra/R/3.3/load.sh \n" \
+            f"source /com/extra/GATK/LATEST/load.sh \n" \
+            f"source /com/extra/Java/8/load.sh \n" \
+            f"export _JAVA_OPTIONS='-Xms8G -Xmx8G' \n"
+
 if arguments['--nojob'] or arguments['--dry-run']:
-    jobscript = f"#!/bin/sh \n" \
-                f"source /com/extra/samtools/LATEST/load.sh \n" \
-                f"source /com/extra/bwa/LATEST/load.sh \n" \
-                f"source /com/extra/picard/2.7.1/load.sh \n" \
-                f"source /com/extra/R/3.3/load.sh \n" \
-                f"source /com/extra/GATK/LATEST/load.sh \n" \
-                f"source /com/extra/Java/8/load.sh \n" \
-                f"export _JAVA_OPTIONS='-Xms8G -Xmx8G' \n" 
     with open(f"{outname}.master.sh","w") as outfile:
         outfile.write(jobscript)
-    subprocess.call(["/bin/sh", outname+".master.sh"])
+        if arguments['--dry-run']:
+            outfile.write(f"snakemake -j 999 -s {outname}.snake --configfile {outname}.config.json -n")
+        else:
+            outfile.write(f"snakemake -s {outname}.snake --configfile {outname}.config.json")
     if not arguments['--dry-run']:
-        subprocess.call(["snakemake", "-j 999", "-s", f"{outname}.snake", "--configfile", f"{outname}.config.json"])
+        subprocess.call(["sh",outname + ".master.sh"])
     else:
-        subprocess.call(["snakemake", "-j 999", "-s", f"{outname}.snake", "--configfile", f"{outname}.config.json","-n"])
+        subprocess.call(["sh",outname +".master.sh"])
+
 else:
     with open(f"{outname}.master.sh","w") as outfile:
-        outfile.write("#!/bin/sh\n")
+        outfile.write(jobscript)
         outfile.write(f"snakemake -j 1000000 -s {outname}.snake --configfile {outname}.config.json --cluster-config {sys.path[0]}/gatk.cluster.json \
     --cluster 'sbatch --mem={{cluster.mem}} -c {{cluster.cores}} --time={{cluster.time}} -e {outname}.err -o {outname}.out'")
     subprocess.call(["sbatch","--time=12:00:00",outname+".master.sh"])
+
+

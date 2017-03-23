@@ -2,42 +2,43 @@
     "__default__":
     {
 	"time":"12:00:00",
-	"mem":"8g",
+	"mem":"16g",
 	"cores":"1"
     },
     "gseq_bwa_aln_read1":
     {
-	"mem":"16g",
 	"cores":"4"
     },
     "gseq_bwa_aln_read2":
     {
-	"mem":"16g",
 	"cores":"4"
     },
     "gatk_realign_indel":
     {
-	"cores":"4",
-	"mem":"16g"
+	"cores":"4"
     },
     "gatk_cov_pattern":
     {
-	"cores":"4",
-	"mem":"16g"
+	"cores":"4"
     },
     "gatk_apply":
     {
-	"cores":"4",
-	"mem":"16g"
+	"cores":"4"
     },
     "gatk_gvcf_step1":
     {
-	"cores":"4",
-	"mem":"16g"
+	"cores":"4"
+    },
+    "gvcf_combine_cwise":
+    {
+	"cores":"8",
+	"mem":"64g",
+	"time":"720:00:00"
     },
     "genotype_gvcf":
     {
-	"cores":"16",
-	"mem":"128g"
+	"cores":"8",
+	"mem":"128g",
+	"time":"720:00:00"
     }
 }

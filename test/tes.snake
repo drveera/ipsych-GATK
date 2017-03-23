@@ -1,7 +1,0 @@
-include: '/faststorage/home/veera/pipelines/ipsych-GATK/bamtosam.snake' 
-include: '/faststorage/home/veera/pipelines/ipsych-GATK/picard.snake' 
-include: '/faststorage/home/veera/pipelines/ipsych-GATK/gatk_pre.snake' 
-include: '/faststorage/home/veera/pipelines/ipsych-GATK/combine_gvcf.snake' 
- 
-rule tes_all:
-	 input:'tes.chr_1.vcf','tes.chr_2.vcf','tes.chr_3.vcf','tes.chr_4.vcf','tes.chr_5.vcf','tes.chr_6.vcf','tes.chr_7.vcf','tes.chr_8.vcf','tes.chr_9.vcf','tes.chr_10.vcf','tes.chr_11.vcf','tes.chr_12.vcf','tes.chr_13.vcf','tes.chr_14.vcf','tes.chr_15.vcf','tes.chr_16.vcf','tes.chr_17.vcf','tes.chr_18.vcf','tes.chr_19.vcf','tes.chr_20.vcf','tes.chr_21.vcf','tes.chr_22.vcf','tes.chr_X.vcf','tes.chr_Y.vcf','tes.chr_MT.vcf'

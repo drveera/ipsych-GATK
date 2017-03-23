@@ -1,1 +1,0 @@
-picard CleanSam INPUT=/home/veera/faststorage/pipelines/ipsych-GATK/test/fq/cigar-test.bam OUTPUT=cigar-test.cleanedbam && touch cigar-test.cleanedbam.ok

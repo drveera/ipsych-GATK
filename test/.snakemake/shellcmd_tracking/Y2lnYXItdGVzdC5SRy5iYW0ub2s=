@@ -1,1 +1,0 @@
-picard AddOrReplaceReadGroups I=cigar-test.cleanedbam O=cigar-test.RG.bam RGID=cigar-test RGSM=cigar-test RGLB=iPSYCH RGPL=ILLUMINA RGPU=ILLUMINA && touch cigar-test.RG.bam.ok

@@ -1,0 +1,1 @@
+picard BuildBamIndex INPUT=cigar-test.dedup.bam TMP_DIR=~/faststorage/.temp && touch cigar-test.dedup.bai.ok

@@ -1,31 +1,37 @@
 #!/bin/env snakemake
 from os.path import basename
 
-bamfile = ['file']
+bamfile = config['gvcflist']
 infilebam = "{wcard}.bam"
-cleanedbam = "{wcard}.cleanedbam"
-cleanedbam_ok = cleanedbam + ".ok"
-infileRGbam = "{wcard}.RGbam"
-infileRGbam_ok = infileRGbam + ".ok"
-infilesam = "{wcard}.sam"
+infilesam = "{wcard}.unclean.sam"
 infilesam_ok = infilesam + ".ok"
+cleanedsam = "{wcard}.cleanedsam"
+cleanedsam_ok = cleanedsam + ".ok"
+
+infileRGsam = "{wcard}.sam"
+infileRGsam_ok = infileRGsam + ".ok"
+
+
 
 rule all:
-    input: expand(infilesam,wcard = bamfile)
-rule cleanbam:
-    input: infilebam
-    output: a = temp(cleanedbam), ok = temp(cleanedbam_ok)
-    shell:
-        "picard CleanSam "
-        "INPUT={input} OUTPUT={output.a} && touch {output.ok}"
-rule addreadGroup:
-    input: a = cleanedbam, ok = cleanedbam_ok
-    output: a = temp(infileRGbam), ok = temp(infileRGbam_ok)
-    params: lambda wildcards: basename(wildcards.wcard)
-    shell:
-        "picard AddOrReplaceReadGroups I={input} O={output.a} "
-        "RGID={params} RGSM={params} RGLB=iPSYCH RGPL=ILLUMINA RGPU=ILLUMINA && touch {output.ok}"
+    input: expand(infileRGsam,wcard = bamfile)
+
 rule bamtosam:
-    input: a = infileRGbam, ok = infileRGbam_ok
+    input: a = lambda wildcards: bamfile[wildcards.wcard]
     output: a = temp(infilesam), ok = infilesam_ok
     shell:"samtools view -h -o {output.a} {input} && touch {output.ok}"
+
+rule cleansam:
+    input: a = infilesam, ok = infilesam_ok
+    output: a = temp(cleanedsam), ok = temp(cleanedsam_ok)
+    shell:
+        "picard CleanSam "
+        "INPUT={input.a} OUTPUT={output.a} && touch {output.ok}"
+    
+rule addreadGroup:
+    input: a = cleanedsam, ok = cleanedsam_ok
+    output: a = temp(infileRGsam), ok = temp(infileRGsam_ok)
+    params: lambda wildcards: basename(wildcards.wcard)
+    shell:
+        "picard AddOrReplaceReadGroups I={input.a} O={output.a} "
+        "RGID={params} RGSM={params} RGLB=iPSYCH RGPL=ILLUMINA RGPU=ILLUMINA && touch {output.ok}"

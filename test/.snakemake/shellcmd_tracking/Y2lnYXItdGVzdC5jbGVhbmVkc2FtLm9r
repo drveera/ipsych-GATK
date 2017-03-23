@@ -1,0 +1,1 @@
+picard CleanSam INPUT=cigar-test.unclean.sam OUTPUT=cigar-test.cleanedsam && touch cigar-test.cleanedsam.ok

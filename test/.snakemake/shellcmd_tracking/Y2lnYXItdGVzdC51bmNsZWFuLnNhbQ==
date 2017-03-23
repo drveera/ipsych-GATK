@@ -1,0 +1,1 @@
+samtools view -h -o cigar-test.unclean.sam /home/veera/faststorage/pipelines/ipsych-GATK/test/fq/cigar-test.bam && touch cigar-test.unclean.sam.ok

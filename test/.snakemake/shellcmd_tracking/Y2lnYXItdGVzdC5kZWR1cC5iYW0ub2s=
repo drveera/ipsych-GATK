@@ -1,0 +1,1 @@
+picard MarkDuplicates INPUT=cigar-test.cleanedSortedSam OUTPUT=cigar-test.dedup.bam METRICS_FILE=metrics.txt TMP_DIR=~/faststorage/.temp && touch cigar-test.dedup.bam.ok

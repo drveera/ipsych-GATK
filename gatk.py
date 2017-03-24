@@ -99,4 +99,4 @@ else:
         outfile.write(jobscript)
         outfile.write(f"snakemake -j 1000000 -s {outname}.snake --configfile {outname}.config.json --cluster-config {sys.path[0]}/gatk.cluster.json \
     --cluster 'sbatch --mem={{cluster.mem}} -c {{cluster.cores}} --time={{cluster.time}} -e {outname}.err -o {outname}.out'")
-    subprocess.call(["sbatch",f"--time=12:00:00",outname+".master.sh"])
+    subprocess.call(["sbatch","--time=12:00:00",outname+".master.sh"])

@@ -1,15 +1,15 @@
 #!/bin/env snakemake
 
 samfile = ['file']
-cleanedsam = "{wcard}.sam"
+cleanedsam = "{wcard}/{wcard}.sam"
 cleanedsam_ok = cleanedsam + ".ok"
-dedupbam = "{wcard}.dedup.bam"
+dedupbam = "{wcard}/{wcard}.dedup.bam"
 dedupbam_ok = dedupbam + ".ok"
-dedupbai = "{wcard}.dedup.bai"
+dedupbai = "{wcard}/{wcard}.dedup.bai"
 dedupbai_ok = dedupbai + ".ok"
 
 
-sortedsam = "{wcard}.cleanedSortedSam"
+sortedsam = "{wcard}/{wcard}.cleanedSortedSam"
 sortedsam_ok = sortedsam + ".ok"
 
 temp_dir = "~/faststorage/.temp"

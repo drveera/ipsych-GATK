@@ -10,18 +10,18 @@ bwa_ref = '/data/refseq/tooldata/GATKbundle/2.8/b37/human_g1k_v37.fasta'
 #bwa_fq = process_list(bwa_fq)
 bwa_fq = config['gvcflist']
 
-rawsam = "{wcard}/{wcard}.sam"
+rawsam = "{wcard}.sam"
 rawsam_ok = rawsam + ".ok"
 
-cleanedsam = "{wcard}/{wcard}.cleanedSam"
+cleanedsam = "{wcard}.cleanedSam"
 cleanedsam_ok = cleanedsam + ".ok"
 ###################################
 #fq1 = lambda wildcards: bwa_fq["{wildcards.wcard}"][0]
 #fq2 = lambda wildcards: bwa_fq["{wildcards.wcard}"][1]
 fq2 = "{wcard}.fq2"
-sai1 = "{wcard}/{wcard}.fq1.sai"
+sai1 = "{wcard}.fq1.sai"
 sai1_ok = sai1 + ".ok"
-sai2 = "{wcard}/{wcard}.fq2.sai"
+sai2 = "{wcard}.fq2.sai"
 sai2_ok = sai2 + ".ok"
 
 rule gseq_bwa_all:
@@ -29,16 +29,15 @@ rule gseq_bwa_all:
 
 rule gseq_bwa_aln_read1:
     input: a = lambda wildcards: bwa_fq[wildcards.wcard], r = bwa_ref
-    output: a = sai1, b = sai1_ok
+    output: a = temp(sai1), b = temp(sai1_ok)
     shell: "bwa aln -t 4 {input.r} {input.a} > {output.a} && touch {output.b}"
-
 rule gseq_bwa_aln_read2:
     input: b = lambda wildcards: bwa_fq[wildcards.wcard], r = bwa_ref
-    output: a = sai2, b = sai2_ok
+    output: a = temp(sai2), b = temp(sai2_ok)
     shell: "bwa aln -t 4 {input.r} {input.b} > {output.a} && touch {output.b}"
 
 rule gseq_bwa_align:
-    input: a = temp(sai1), a_ok = temp(sai1_ok), b= temp(sai2), b_ok = temp(sai2_ok), c = lambda wildcards: bwa_fq[wildcards.wcard][0], d = lambda wildcards: bwa_fq[wildcards.wcard][1], r = bwa_ref
+    input: a = sai1, a_ok = sai1_ok, b= sai2, b_ok = sai2_ok, c = lambda wildcards: bwa_fq[wildcards.wcard][0], d = lambda wildcards: bwa_fq[wildcards.wcard][1], r = bwa_ref
     params: lambda wildcards: basename(wildcards.wcard)
     output: a = temp(rawsam), b = temp(rawsam_ok)
     shell: "bwa sampe -r '@RG\tID:{params}\tSM:{params}\tPL:ILLUMINA\tLB:iPsych' "

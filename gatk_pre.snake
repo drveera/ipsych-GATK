@@ -9,24 +9,24 @@ dbsnp = '/data/refseq/tooldata/GATKbundle/2.8/b37/dbsnp_138.b37.vcf'
 ###GATK settings####
 padding = "100"
 ###INPUT FILE ########
-infile = "{wcard}/{wcard}.dedup.bam"
+infile = "{wcard}.dedup.bam"
 infile_ok = infile + ".ok"
-infile_index = "{wcard}/{wcard}.dedup.bai"
+infile_index = "{wcard}.dedup.bai"
 infile_index_ok = infile_index + ".ok"
 ######INTERMEDIATE FILES######
-realign_targets = "{wcard}/{wcard}.chr_{chrom}.realignment.targets.list"
+realign_targets = "{wcard}.chr_{chrom}.realignment.targets.list"
 realign_targets_ok = realign_targets + ".ok"
-realigned_bam = "{wcard}/{wcard}.chr_{chrom}.realigned.bam"
+realigned_bam = "{wcard}.chr_{chrom}.realigned.bam"
 realigned_bam_ok = realigned_bam + ".ok"
-realigned_bai = "{wcard}/{wcard}.chr_{chrom}.realigned.bai"
-recal_table = "{wcard}/{wcard}.chr_{chrom}.recal.table"
+realigned_bai = "{wcard}.chr_{chrom}.realigned.bai"
+recal_table = "{wcard}.chr_{chrom}.recal.table"
 recal_table_ok = recal_table + ".ok"
-post_recal_table = "{wcard}/{wcard}.chr_{chrom}.post.recal.table"
-recal_bam = "{wcard}/{wcard}.chr_{chrom}.recal.bam"
-recal_bai = "{wcard}/{wcard}.chr_{chrom}.recal.bai"
+post_recal_table = "{wcard}.chr_{chrom}.post.recal.table"
+recal_bam = "{wcard}.chr_{chrom}.recal.bam"
+recal_bai = "{wcard}.chr_{chrom}.recal.bai"
 #########OUTPUT FILE########
-outfile = "{wcard}/{wcard}.chr_{chrom}.rawGvcf"
-outfile_idx = "{wcard}/{wcard}.chr_{chrom}.rawGvcf.idx"
+outfile = "{wcard}.chr_{chrom}.rawGvcf"
+outfile_idx = "{wcard}.chr_{chrom}.rawGvcf.idx"
 ##PARAMS#####
 chr_list = list(range(1,23)) + ['X','Y','MT']
 

@@ -3,7 +3,7 @@
 wcard = config['gvcflist']
 mergename = ['file']
 ref_genome = '/data/refseq/tooldata/GATKbundle/2.8/b37/human_g1k_v37.fasta'
-gvcf = "{wcard}/{wcard}.chr_{{chrom}}.rawGvcf"
+gvcf = "{wcard}.chr_{{chrom}}.rawGvcf"
 gvcf_list = "chrom_{chrom}.gvcf.list"
 
 mergedGvcf = "{mergename}.chr_{chrom}.mergedGvcf"

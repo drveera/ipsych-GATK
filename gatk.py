@@ -97,6 +97,9 @@ if arguments['--nojob'] or arguments['--dry-run']:
 else:
     with open(f"{outname}.master.sh","w") as outfile:
         outfile.write(jobscript)
-        outfile.write(f"snakemake -j 1000000 -s {outname}.snake --configfile {outname}.config.json --cluster-config {sys.path[0]}/gatk.cluster.json \
-    --cluster 'sbatch --mem={{cluster.mem}} -c {{cluster.cores}} --time={{cluster.time}} -e {outname}.err -o {outname}.out'")
+        outfile.write(f"snakemake --notemp --unlock --immediate-submit -j 1000000 -s {outname}.snake " \
+                      f"--configfile {outname}.config.json --cluster-config "\
+                      f"{sys.path[0]}/gatk.cluster.json --cluster '{sdir}/mybatch.py "\
+                      f"--mem={{cluster.mem}} --cores={{cluster.cores}} --time={{cluster.time}} "\
+                      f"--error={outname}.err --stdout={outname}.out {{dependencies}}'")
     subprocess.call(["sbatch","--time=12:00:00",outname+".master.sh"])

@@ -3,12 +3,12 @@ from os.path import basename
 
 bamfile = config['gvcflist']
 infilebam = "{wcard}.bam"
-infilesam = "{wcard}.unclean.sam"
+infilesam = "{wcard}/{wcard}.unclean.sam"
 infilesam_ok = infilesam + ".ok"
-cleanedsam = "{wcard}.cleanedsam"
+cleanedsam = "{wcard}/{wcard}.cleanedsam"
 cleanedsam_ok = cleanedsam + ".ok"
 
-infileRGsam = "{wcard}.sam"
+infileRGsam = "{wcard}/{wcard}.sam"
 infileRGsam_ok = infileRGsam + ".ok"
 
 

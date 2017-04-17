@@ -1,0 +1,1 @@
+gatk -T HaplotypeCaller -nct 4 -R /data/refseq/tooldata/GATKbundle/2.8/b37/human_g1k_v37.fasta -L 1 --interval_padding 100 -I cigar-test/cigar-test.chr_1.recal.bam --emitRefConfidence GVCF -o cigar-test/cigar-test.chr_1.rawGvcf -variant_index_type LINEAR -variant_index_parameter 128000

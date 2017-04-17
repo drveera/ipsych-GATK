@@ -11,18 +11,18 @@ bwa_ref = '/data/refseq/tooldata/GATKbundle/2.8/b37/human_g1k_v37.fasta'
 bwa_fq = config['gvcflist']
 
 rawsam = "{wcard}/{wcard}.sam"
-rawsam_ok = rawsam + ".ok"
+rawsam_ok = "{wcard}/.{wcard}.sam.ok"
 
 cleanedsam = "{wcard}/{wcard}.cleanedSam"
-cleanedsam_ok = cleanedsam + ".ok"
+cleanedsam_ok = "{wcard}/.{wcard}.cleanedSam.ok"
 ###################################
 #fq1 = lambda wildcards: bwa_fq["{wildcards.wcard}"][0]
 #fq2 = lambda wildcards: bwa_fq["{wildcards.wcard}"][1]
 fq2 = "{wcard}.fq2"
 sai1 = "{wcard}/{wcard}.fq1.sai"
-sai1_ok = sai1 + ".ok"
-sai2 = "{wcard}/{wcard}.fq2.sai"
-sai2_ok = sai2 + ".ok"
+sai1_ok = "{wcard}/.{wcard}.fq1.sai.ok"
+sai2 =  "{wcard}/{wcard}.fq2.sai"
+sai2_ok = "{wcard}/.{wcard}.fq2.sai.ok"
 
 rule gseq_bwa_all:
     input: expand(cleanedsam, wcard = bwa_fq)

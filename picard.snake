@@ -2,15 +2,15 @@
 
 samfile = ['file']
 cleanedsam = "{wcard}/{wcard}.sam"
-cleanedsam_ok = cleanedsam + ".ok"
+cleanedsam_ok = "{wcard}/.{wcard}.sam.ok"
 dedupbam = "{wcard}/{wcard}.dedup.bam"
-dedupbam_ok = dedupbam + ".ok"
+dedupbam_ok = "{wcard}/.{wcard}.dedup.bam.ok"
 dedupbai = "{wcard}/{wcard}.dedup.bai"
-dedupbai_ok = dedupbai + ".ok"
+dedupbai_ok = "{wcard}/.{wcard}.dedup.bai.ok"
 
 
 sortedsam = "{wcard}/{wcard}.cleanedSortedSam"
-sortedsam_ok = sortedsam + ".ok"
+sortedsam_ok = "{wcard}/.{wcard}.cleanedSortedSam.ok"
 
 temp_dir = "~/faststorage/.temp"
 

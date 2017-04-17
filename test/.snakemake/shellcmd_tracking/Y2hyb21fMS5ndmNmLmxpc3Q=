@@ -1,0 +1,1 @@
+for i in cigar-test/cigar-test.chr_1.rawGvcf; do ls $i >> chrom_1.gvcf.list; done

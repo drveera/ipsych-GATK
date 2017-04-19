@@ -2,27 +2,30 @@
 from os.path import basename
 
 ########USER PARAMS##################
-#bwa_ref = config['--ref-genome']
-bwa_ref = '/data/refseq/tooldata/GATKbundle/2.8/b37/human_g1k_v37.fasta'
-
+rg = config['--ref-genome']
+if rg:
+    bwa_ref = rg
+else:
+    bwa_ref = '/data/refseq/tooldata/GATKbundle/2.8/b37/human_g1k_v37.fasta'
+out = config['--out']
 #################WILDCARD##########
 #bwa_fq = config['--fqlist']
 #bwa_fq = process_list(bwa_fq)
 bwa_fq = config['gvcflist']
 
-rawsam = "{wcard}/{wcard}.sam"
-rawsam_ok = "{wcard}/.{wcard}.sam.ok"
+rawsam = out + "_indv_files/{wcard}/{wcard}.sam"
+rawsam_ok = out + "_indv_files/{wcard}/.{wcard}.sam.ok"
 
-cleanedsam = "{wcard}/{wcard}.cleanedSam"
-cleanedsam_ok = "{wcard}/.{wcard}.cleanedSam.ok"
+cleanedsam = out + "_indv_files/{wcard}/{wcard}.cleanedSam"
+cleanedsam_ok = out + "_indv_files/{wcard}/.{wcard}.cleanedSam.ok"
 ###################################
 #fq1 = lambda wildcards: bwa_fq["{wildcards.wcard}"][0]
 #fq2 = lambda wildcards: bwa_fq["{wildcards.wcard}"][1]
 fq2 = "{wcard}.fq2"
-sai1 = "{wcard}/{wcard}.fq1.sai"
-sai1_ok = "{wcard}/.{wcard}.fq1.sai.ok"
-sai2 =  "{wcard}/{wcard}.fq2.sai"
-sai2_ok = "{wcard}/.{wcard}.fq2.sai.ok"
+sai1 = out + "_indv_files/{wcard}/{wcard}.fq1.sai"
+sai1_ok = out + "_indv_files/{wcard}/.{wcard}.fq1.sai.ok"
+sai2 =  out + "_indv_files/{wcard}/{wcard}.fq2.sai"
+sai2_ok = out + "_indv_files/{wcard}/.{wcard}.fq2.sai.ok"
 
 rule gseq_bwa_all:
     input: expand(cleanedsam, wcard = bwa_fq)

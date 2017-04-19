@@ -1,16 +1,17 @@
 #!/bin/env snakemake
 
+out = config['--out']
 samfile = ['file']
-cleanedsam = "{wcard}/{wcard}.sam"
-cleanedsam_ok = "{wcard}/.{wcard}.sam.ok"
-dedupbam = "{wcard}/{wcard}.dedup.bam"
-dedupbam_ok = "{wcard}/.{wcard}.dedup.bam.ok"
-dedupbai = "{wcard}/{wcard}.dedup.bai"
-dedupbai_ok = "{wcard}/.{wcard}.dedup.bai.ok"
+cleanedsam = out + "_indv_files/{wcard}/{wcard}.sam"
+cleanedsam_ok = out + "_indv_files/{wcard}/.{wcard}.sam.ok"
+dedupbam = out + "_indv_files/{wcard}/{wcard}.dedup.bam"
+dedupbam_ok = out + "_indv_files/{wcard}/.{wcard}.dedup.bam.ok"
+dedupbai = out + "_indv_files/{wcard}/{wcard}.dedup.bai"
+dedupbai_ok = out + "_indv_files/{wcard}/.{wcard}.dedup.bai.ok"
 
 
-sortedsam = "{wcard}/{wcard}.cleanedSortedSam"
-sortedsam_ok = "{wcard}/.{wcard}.cleanedSortedSam.ok"
+sortedsam = out + "_indv_files/{wcard}/{wcard}.cleanedSortedSam"
+sortedsam_ok = out + "_indv_files/{wcard}/.{wcard}.cleanedSortedSam.ok"
 
 temp_dir = "~/faststorage/.temp"
 

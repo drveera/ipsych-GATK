@@ -1,1 +1,0 @@
-gatk -T GenotypeGVCFs -nt 16 -R /data/refseq/tooldata/GATKbundle/2.8/b37/human_g1k_v37.fasta -L 1 --variant r1.chr_1.mergedGvcf -o r1.chr_1.vcf

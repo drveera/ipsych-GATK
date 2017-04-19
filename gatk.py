@@ -5,12 +5,13 @@ usage:
  ipsych-gatk (--fqlist=FILE | --bamlist=FILE) --out=PREFIX [options]
 
 options:
- --fqlist=FILE     fastq list
- --bamlist=FILE    bam list
- --out=PREFIX      output name prefix
- --chr=NUMBER      chromosome number, by default all chromosomes will be processed
- --nojob           nojob
- --dry-run         dry run
+ --fqlist=FILE      fastq list
+ --bamlist=FILE     bam list
+ --out=PREFIX       output name prefix
+ --chr=NUMBER       chromosome number, by default all chromosomes will be processed
+ --ref-genome=FILE  ref genome fasta file
+ --nojob            nojob
+ --dry-run          dry run
 
 '''
 from docopt import docopt
@@ -45,9 +46,9 @@ if arguments['--fqlist'] is not None:
         outfile.write(f"rule {outname}_all:\n")
         outfile.write("\t input:")
         for i in chr_list:
-            outfile.write(f"'{outname}.chr_{i}.vcf',")
+            outfile.write(f"'{outname}_merged_files/{outname}.chr_{i}.vcf',")
         if arguments['--chr'] is None:
-            outfile.write(f"'{outname}.chr_MT.vcf'")
+            outfile.write(f"'{outname}_merged_files/{outname}.chr_MT.vcf'")
 else:
     gvcflist = [x.strip() for x in list(open(arguments['--bamlist']))]
     gvcflist = [sub(".bam$","",i) for i in gvcflist]
@@ -63,9 +64,9 @@ else:
         outfile.write(f"rule {outname}_all:\n")
         outfile.write("\t input:")
         for i in chr_list:
-            outfile.write(f"'{outname}.chr_{i}.vcf',")
+            outfile.write(f"'{outname}_merged_files/{outname}.chr_{i}.vcf',")
         if arguments['--chr'] is None:
-            outfile.write(f"'{outname}.chr_MT.vcf'")
+            outfile.write(f"'{outname}_merged_files/{outname}.chr_MT.vcf'")
 
 
 
@@ -97,6 +98,7 @@ if arguments['--nojob'] or arguments['--dry-run']:
 else:
     with open(f"{outname}.master.sh","w") as outfile:
         outfile.write(jobscript)
-        outfile.write(f"snakemake -j 1000000 -s {outname}.snake --configfile {outname}.config.json --cluster-config {sys.path[0]}/gatk.cluster.json \
-        --cluster '{sys.pathp[0]/}mysbatch.sh --mem={{cluster.mem}} -c {{cluster.cores}} --time={{cluster.time}} -e {outname}.err -o {outname}.out'")
-    subprocess.call(["sbatch","--time=12:00:00",outname+".master.sh"])
+        outfile.write(f"snakemake -j 1000000 --notemp --immediate-submit --nolock -s {outname}.snake --configfile {outname}.config.json --cluster-config {sys.path[0]}/gatk.cluster.json \
+        --cluster '{sys.path[0]}/mybatch.py --mem {{cluster.mem}} --cores {{cluster.cores}} --time {{cluster.time}} --error {outname}.err --stdout \
+        {outname}.out {{dependencies}}'")
+    subprocess.call(["sbatch","--time=12:00:00","--mem=4g",outname+".master.sh"])

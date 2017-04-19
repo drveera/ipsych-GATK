@@ -1,15 +1,16 @@
 #!/bin/env snakemake
 from os.path import basename
 
+out = config['--out']
 bamfile = config['gvcflist']
 infilebam = "{wcard}.bam"
-infilesam = "{wcard}/{wcard}.unclean.sam"
-infilesam_ok = "{wcard}/.{wcard}.unclean.sam.ok"
-cleanedsam = "{wcard}/{wcard}.cleanedsam"
-cleanedsam_ok = "{wcard}/.{wcard}.cleanedsam.ok"
+infilesam = out + "_indv_files/{wcard}/{wcard}.unclean.sam"
+infilesam_ok = out + "_indv_files/{wcard}/.{wcard}.unclean.sam.ok"
+cleanedsam = out + "_indv_files/{wcard}/{wcard}.cleanedsam"
+cleanedsam_ok = out + "_indv_files/{wcard}/.{wcard}.cleanedsam.ok"
 
-infileRGsam = "{wcard}/{wcard}.sam"
-infileRGsam_ok = "{wcard}/.{wcard}.sam.ok"
+infileRGsam = out + "_indv_files/{wcard}/{wcard}.sam"
+infileRGsam_ok = out + "_indv_files/{wcard}/.{wcard}.sam.ok"
 
 
 

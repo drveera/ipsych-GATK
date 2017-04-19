@@ -1,32 +1,36 @@
 #!/bin/env snakemake
 
 picardfile = ['file']
-
+out = config['--out']
 ###GATK FILES####
-ref_genome = '/data/refseq/tooldata/GATKbundle/2.8/b37/human_g1k_v37.fasta'
+rg = config['--ref-genome']
+if rg:
+    ref_genome = rg
+else:
+    ref_genome = '/data/refseq/tooldata/GATKbundle/2.8/b37/human_g1k_v37.fasta'
 gold_indel = '/data/refseq/tooldata/GATKbundle/2.8/b37/Mills_and_1000G_gold_standard.indels.b37.vcf'
 dbsnp = '/data/refseq/tooldata/GATKbundle/2.8/b37/dbsnp_138.b37.vcf'
 ###GATK settings####
 padding = "100"
 ###INPUT FILE ########
-infile = "{wcard}/{wcard}.dedup.bam"
-infile_ok = "{wcard}/.{wcard}.dedup.bam.ok"
-infile_index = "{wcard}/{wcard}.dedup.bai"
-infile_index_ok = "{wcard}/.{wcard}.dedup.bai.ok"
+infile = out + "_indv_files/{wcard}/{wcard}.dedup.bam"
+infile_ok = out + "_indv_files/{wcard}/.{wcard}.dedup.bam.ok"
+infile_index = out + "_indv_files/{wcard}/{wcard}.dedup.bai"
+infile_index_ok = out + "_indv_files/{wcard}/.{wcard}.dedup.bai.ok"
 ######INTERMEDIATE FILES######
-realign_targets = "{wcard}/{wcard}.chr_{chrom}.realignment.targets.list"
-realign_targets_ok = "{wcard}/.{wcard}.chr_{chrom}.realignment.targets.list.ok"
-realigned_bam = "{wcard}/{wcard}.chr_{chrom}.realigned.bam"
-realigned_bam_ok = "{wcard}/.{wcard}.chr_{chrom}.realigned.bam.ok"
-realigned_bai = "{wcard}/{wcard}.chr_{chrom}.realigned.bai"
-recal_table = "{wcard}/{wcard}.chr_{chrom}.recal.table"
-recal_table_ok = "{wcard}/.{wcard}.chr_{chrom}.recal.table.ok"
-post_recal_table = "{wcard}/{wcard}.chr_{chrom}.post.recal.table"
-recal_bam = "{wcard}/{wcard}.chr_{chrom}.recal.bam"
-recal_bai = "{wcard}/{wcard}.chr_{chrom}.recal.bai"
+realign_targets = out + "_indv_files/{wcard}/{wcard}.chr_{chrom}.realignment.targets.list"
+realign_targets_ok = out + "_indv_files/{wcard}/.{wcard}.chr_{chrom}.realignment.targets.list.ok"
+realigned_bam = out + "_indv_files/{wcard}/{wcard}.chr_{chrom}.realigned.bam"
+realigned_bam_ok = out + "_indv_files/{wcard}/.{wcard}.chr_{chrom}.realigned.bam.ok"
+realigned_bai = out + "_indv_files/{wcard}/{wcard}.chr_{chrom}.realigned.bai"
+recal_table = out + "_indv_files/{wcard}/{wcard}.chr_{chrom}.recal.table"
+recal_table_ok = out + "_indv_files/{wcard}/.{wcard}.chr_{chrom}.recal.table.ok"
+post_recal_table = out + "_indv_files/{wcard}/{wcard}.chr_{chrom}.post.recal.table"
+recal_bam = out + "_indv_files/{wcard}/{wcard}.chr_{chrom}.recal.bam"
+recal_bai = out + "_indv_files/{wcard}/{wcard}.chr_{chrom}.recal.bai"
 #########OUTPUT FILE########
-outfile = "{wcard}/{wcard}.chr_{chrom}.rawGvcf"
-outfile_idx = "{wcard}/{wcard}.chr_{chrom}.rawGvcf.idx"
+outfile = out + "_indv_files/{wcard}/{wcard}.chr_{chrom}.rawGvcf"
+outfile_idx = out + "_indv_files/{wcard}/{wcard}.chr_{chrom}.rawGvcf.idx"
 ##PARAMS#####
 chr_list = list(range(1,23)) + ['X','Y','MT']
 

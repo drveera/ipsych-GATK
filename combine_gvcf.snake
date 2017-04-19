@@ -1,20 +1,24 @@
 #!/bin/env python
 
+out = config['--out']
 wcard = config['gvcflist']
 mergename = ['file']
-ref_genome = '/data/refseq/tooldata/GATKbundle/2.8/b37/human_g1k_v37.fasta'
-gvcf = "{wcard}/{wcard}.chr_{{chrom}}.rawGvcf"
+rg = config['--ref-genome']
+if rg:
+    ref_genome = rg
+else:
+    ref_genome = '/data/refseq/tooldata/GATKbundle/2.8/b37/human_g1k_v37.fasta'
+gvcf = out + "_indv_files/{wcard}/{wcard}.chr_{{chrom}}.rawGvcf"
 gvcf_list = "chrom_{chrom}.gvcf.list"
 
-mergedGvcf = "{mergename}.chr_{chrom}.mergedGvcf"
+mergedGvcf = out + "_merged_files/{mergename}.chr_{chrom}.mergedGvcf"
 mergedGvcf_idx = mergedGvcf + ".idx"
 chr_list = list(range(1,23)) + ['X','Y','MT']
 
-finalvcf = "{mergename}.chr_{chrom}.vcf"
+finalvcf = out + "_merged_files/{mergename}.chr_{chrom}.vcf"
 
 rule combineGvcf_all:
-    input: #expand(mergedGvcf,mergename = mergename, chrom = chr_list)
-        expand(finalvcf, chrom = chr_list, mergename = mergename)
+    input: expand(finalvcf, chrom = chr_list, mergename = mergename)
     
 rule gvcf_create_list:
     input: expand(gvcf,wcard = wcard)

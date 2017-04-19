@@ -100,5 +100,5 @@ else:
         outfile.write(jobscript)
         outfile.write(f"snakemake -j 1000000 --notemp --immediate-submit --nolock -s {outname}.snake --configfile {outname}.config.json --cluster-config {sys.path[0]}/gatk.cluster.json \
         --cluster '{sys.path[0]}/mybatch.py --mem {{cluster.mem}} --cores {{cluster.cores}} --time {{cluster.time}} --error {outname}.err --stdout \
-        {outname}.out {{dependencies}}'")
+        {outname}.out --project-name ADHD_Lubeck {{dependencies}}'")
     subprocess.call(["sbatch","--time=12:00:00","--mem=4g",outname+".master.sh"])

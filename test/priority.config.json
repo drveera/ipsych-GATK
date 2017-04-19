@@ -1,0 +1,14 @@
+{
+    "--fqlist": null,
+    "--bamlist": "fq/bam.list",
+    "--out": "priority",
+    "--dry-run": false,
+    "--chr": "22",
+    "--nojob": false,
+    "--ref-genome": null,
+    "gvcflist": {
+        "cigar-test": [
+            "/home/veera/faststorage/pipelines/ipsych-GATK/test/fq/cigar-test.bam"
+        ]
+    }
+}

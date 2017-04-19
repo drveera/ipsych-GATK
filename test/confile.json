@@ -1,0 +1,155 @@
+{
+    "--mem": "16g",
+    "--stdout": "priority.out",
+    "--cores": "1",
+    "--error": "priority.err",
+    "--project-name": "ADHD_Lubeck",
+    "--time": "12:00:00",
+    "--": false,
+    "<script>": [
+        "/faststorage/home/veera/pipelines/ipsych-GATK/test/.snakemake/tmp.sf4y0ll_/snakejob.bamtosam.14.sh"
+    ]
+}{
+    "--time": "12:00:00",
+    "--cores": "1",
+    "--error": "priority.err",
+    "--project-name": "ADHD_Lubeck",
+    "--mem": "16g",
+    "--stdout": "priority.out",
+    "--": false,
+    "<script>": [
+        "/faststorage/home/veera/pipelines/ipsych-GATK/test/.snakemake/tmp.sf4y0ll_/snakejob.cleansam.13.sh"
+    ]
+}{
+    "--error": "priority.err",
+    "--cores": "1",
+    "--time": "12:00:00",
+    "--project-name": "ADHD_Lubeck",
+    "--mem": "16g",
+    "--stdout": "priority.out",
+    "--": false,
+    "<script>": [
+        "/faststorage/home/veera/pipelines/ipsych-GATK/test/.snakemake/tmp.sf4y0ll_/snakejob.addreadGroup.12.sh"
+    ]
+}{
+    "--project-name": "ADHD_Lubeck",
+    "--cores": "1",
+    "--error": "priority.err",
+    "--mem": "16g",
+    "--time": "12:00:00",
+    "--stdout": "priority.out",
+    "--": false,
+    "<script>": [
+        "/faststorage/home/veera/pipelines/ipsych-GATK/test/.snakemake/tmp.sf4y0ll_/snakejob.picard_sort.11.sh"
+    ]
+}{
+    "--error": "priority.err",
+    "--stdout": "priority.out",
+    "--mem": "16g",
+    "--project-name": "ADHD_Lubeck",
+    "--time": "12:00:00",
+    "--cores": "1",
+    "--": false,
+    "<script>": [
+        "/faststorage/home/veera/pipelines/ipsych-GATK/test/.snakemake/tmp.sf4y0ll_/snakejob.picard_markduplicates.10.sh"
+    ]
+}{
+    "--error": "priority.err",
+    "--stdout": "priority.out",
+    "--cores": "1",
+    "--mem": "16g",
+    "--time": "12:00:00",
+    "--project-name": "ADHD_Lubeck",
+    "--": false,
+    "<script>": [
+        "/faststorage/home/veera/pipelines/ipsych-GATK/test/.snakemake/tmp.sf4y0ll_/snakejob.picard_index.9.sh"
+    ]
+}{
+    "--cores": "4",
+    "--error": "priority.err",
+    "--stdout": "priority.out",
+    "--project-name": "ADHD_Lubeck",
+    "--time": "12:00:00",
+    "--mem": "16g",
+    "--": false,
+    "<script>": [
+        "/faststorage/home/veera/pipelines/ipsych-GATK/test/.snakemake/tmp.sf4y0ll_/snakejob.gatk_realign_indel.8.sh"
+    ]
+}{
+    "--time": "12:00:00",
+    "--error": "priority.err",
+    "--mem": "16g",
+    "--stdout": "priority.out",
+    "--project-name": "ADHD_Lubeck",
+    "--cores": "1",
+    "--": false,
+    "<script>": [
+        "/faststorage/home/veera/pipelines/ipsych-GATK/test/.snakemake/tmp.sf4y0ll_/snakejob.gatk_realign_TI.6.sh"
+    ]
+}{
+    "--error": "priority.err",
+    "--cores": "4",
+    "--stdout": "priority.out",
+    "--time": "12:00:00",
+    "--mem": "16g",
+    "--project-name": "ADHD_Lubeck",
+    "--": false,
+    "<script>": [
+        "/faststorage/home/veera/pipelines/ipsych-GATK/test/.snakemake/tmp.sf4y0ll_/snakejob.gatk_cov_pattern.7.sh"
+    ]
+}{
+    "--error": "priority.err",
+    "--stdout": "priority.out",
+    "--project-name": "ADHD_Lubeck",
+    "--mem": "16g",
+    "--cores": "4",
+    "--time": "12:00:00",
+    "--": false,
+    "<script>": [
+        "/faststorage/home/veera/pipelines/ipsych-GATK/test/.snakemake/tmp.sf4y0ll_/snakejob.gatk_apply.5.sh"
+    ]
+}{
+    "--project-name": "ADHD_Lubeck",
+    "--cores": "4",
+    "--stdout": "priority.out",
+    "--error": "priority.err",
+    "--time": "12:00:00",
+    "--mem": "16g",
+    "--": false,
+    "<script>": [
+        "/faststorage/home/veera/pipelines/ipsych-GATK/test/.snakemake/tmp.sf4y0ll_/snakejob.gatk_gvcf_step1.3.sh"
+    ]
+}{
+    "--cores": "1",
+    "--time": "12:00:00",
+    "--mem": "16g",
+    "--project-name": "ADHD_Lubeck",
+    "--error": "priority.err",
+    "--stdout": "priority.out",
+    "--": false,
+    "<script>": [
+        "/faststorage/home/veera/pipelines/ipsych-GATK/test/.snakemake/tmp.sf4y0ll_/snakejob.gvcf_create_list.4.sh"
+    ]
+}{
+    "--time": "720:00:00",
+    "--mem": "64g",
+    "--error": "priority.err",
+    "--cores": "8",
+    "--stdout": "priority.out",
+    "--project-name": "ADHD_Lubeck",
+    "--": false,
+    "<script>": [
+        "/faststorage/home/veera/pipelines/ipsych-GATK/test/.snakemake/tmp.sf4y0ll_/snakejob.gvcf_combine_cwise.2.sh"
+    ]
+}{
+    "--project-name": "ADHD_Lubeck",
+    "--error": "priority.err",
+    "--mem": "128g",
+    "--cores": "8",
+    "--stdout": "priority.out",
+    "--time": "720:00:00",
+    "--": false,
+    "<script>": [
+        "/faststorage/home/veera/pipelines/ipsych-GATK/test/.snakemake/tmp.sf4y0ll_/snakejob.genotype_gvcf.1.sh"
+    ]
+}

@@ -10,6 +10,7 @@ options:
  --time <time>             time
  --error <file>            error file
  --stdout <file>           stdout file
+ --project-name=NAME       project name
 
 '''
 
@@ -24,6 +25,7 @@ cores = arguments['--cores']
 time = arguments['--time']
 error = arguments['--error']
 stdout = arguments['--stdout']
+project = arguments['--project-name']
 jobids = arguments['<script>']
 jscript = jobids.pop(-1)
 
@@ -38,11 +40,12 @@ if not jobids == []:
 
 import sys
 sdir = sys.path[0]
-subprocess.Popen("sbatch {mem} {cores} {time} {error} {stdout} {djobs} {jscript} | cut -f 4- -d ' '"
+subprocess.Popen("sbatch {mem} {cores} {time} {error} {stdout} {djobs} {project} {jscript} | cut -f 4- -d ' '"
                  .format(sdir = sdir, mem = "--mem=" + mem if mem is not None else "",
                          cores = "-c " +  cores if cores is not None else "",
                          time= "--time=" + time if time is not None else "",
                          error= "-e " + error if error is not None else "",
                          stdout = "-o " + stdout if stdout is not None else "",
                          djobs = "--dependency=afterok:" + jobids if not jobids == [] else "",
+                         project = "-A " + project if project else "",
                          jscript = jscript), shell = True)

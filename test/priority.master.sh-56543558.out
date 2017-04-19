@@ -1,0 +1,138 @@
+Provided cluster nodes: 1000000
+Job counts:
+	count	jobs
+	1	addreadGroup
+	1	bamtosam
+	1	cleansam
+	1	gatk_apply
+	1	gatk_cov_pattern
+	1	gatk_gvcf_step1
+	1	gatk_realign_TI
+	1	gatk_realign_indel
+	1	genotype_gvcf
+	1	gvcf_combine_cwise
+	1	gvcf_create_list
+	1	picard_index
+	1	picard_markduplicates
+	1	picard_sort
+	1	priority_all
+	15
+
+rule bamtosam:
+    input: /home/veera/faststorage/pipelines/ipsych-GATK/test/fq/cigar-test.bam
+    output: priority_indv_files/cigar-test/cigar-test.unclean.sam, priority_indv_files/cigar-test/.cigar-test.unclean.sam.ok
+    jobid: 14
+    wildcards: wcard=cigar-test
+
+sbatch: error: Batch job submission failed: Invalid account or account/partition combination specified
+
+rule cleansam:
+    input: priority_indv_files/cigar-test/cigar-test.unclean.sam, priority_indv_files/cigar-test/.cigar-test.unclean.sam.ok
+    output: priority_indv_files/cigar-test/cigar-test.cleanedsam, priority_indv_files/cigar-test/.cigar-test.cleanedsam.ok
+    jobid: 13
+    wildcards: wcard=cigar-test
+
+sbatch: error: Batch job submission failed: Invalid account or account/partition combination specified
+
+rule addreadGroup:
+    input: priority_indv_files/cigar-test/cigar-test.cleanedsam, priority_indv_files/cigar-test/.cigar-test.cleanedsam.ok
+    output: priority_indv_files/cigar-test/cigar-test.sam, priority_indv_files/cigar-test/.cigar-test.sam.ok
+    jobid: 12
+    wildcards: wcard=cigar-test
+
+sbatch: error: Batch job submission failed: Invalid account or account/partition combination specified
+
+rule picard_sort:
+    input: priority_indv_files/cigar-test/cigar-test.sam, priority_indv_files/cigar-test/.cigar-test.sam.ok
+    output: priority_indv_files/cigar-test/cigar-test.cleanedSortedSam, priority_indv_files/cigar-test/.cigar-test.cleanedSortedSam.ok
+    jobid: 11
+    wildcards: wcard=cigar-test
+
+sbatch: error: Batch job submission failed: Invalid account or account/partition combination specified
+
+rule picard_markduplicates:
+    input: priority_indv_files/cigar-test/cigar-test.cleanedSortedSam, priority_indv_files/cigar-test/.cigar-test.cleanedSortedSam.ok
+    output: priority_indv_files/cigar-test/cigar-test.dedup.bam, priority_indv_files/cigar-test/.cigar-test.dedup.bam.ok
+    jobid: 10
+    wildcards: wcard=cigar-test
+
+sbatch: error: Batch job submission failed: Invalid account or account/partition combination specified
+
+rule picard_index:
+    input: priority_indv_files/cigar-test/cigar-test.dedup.bam, priority_indv_files/cigar-test/.cigar-test.dedup.bam.ok
+    output: priority_indv_files/cigar-test/cigar-test.dedup.bai, priority_indv_files/cigar-test/.cigar-test.dedup.bai.ok
+    jobid: 9
+    wildcards: wcard=cigar-test
+
+sbatch: error: Batch job submission failed: Invalid account or account/partition combination specified
+
+rule gatk_realign_indel:
+    input: priority_indv_files/cigar-test/cigar-test.dedup.bam, priority_indv_files/cigar-test/.cigar-test.dedup.bam.ok, priority_indv_files/cigar-test/cigar-test.dedup.bai, priority_indv_files/cigar-test/.cigar-test.dedup.bai.ok, /data/refseq/tooldata/GATKbundle/2.8/b37/human_g1k_v37.fasta, /data/refseq/tooldata/GATKbundle/2.8/b37/Mills_and_1000G_gold_standard.indels.b37.vcf
+    output: priority_indv_files/cigar-test/cigar-test.chr_22.realignment.targets.list, priority_indv_files/cigar-test/.cigar-test.chr_22.realignment.targets.list.ok
+    jobid: 8
+    wildcards: wcard=cigar-test, chrom=22
+
+sbatch: error: Batch job submission failed: Invalid account or account/partition combination specified
+
+rule gatk_realign_TI:
+    input: priority_indv_files/cigar-test/cigar-test.dedup.bam, priority_indv_files/cigar-test/.cigar-test.dedup.bam.ok, priority_indv_files/cigar-test/cigar-test.dedup.bai, priority_indv_files/cigar-test/.cigar-test.dedup.bai.ok, priority_indv_files/cigar-test/cigar-test.chr_22.realignment.targets.list, /data/refseq/tooldata/GATKbundle/2.8/b37/human_g1k_v37.fasta, /data/refseq/tooldata/GATKbundle/2.8/b37/Mills_and_1000G_gold_standard.indels.b37.vcf
+    output: priority_indv_files/cigar-test/cigar-test.chr_22.realigned.bam, priority_indv_files/cigar-test/.cigar-test.chr_22.realigned.bam.ok, priority_indv_files/cigar-test/cigar-test.chr_22.realigned.bai
+    jobid: 6
+    wildcards: wcard=cigar-test, chrom=22
+
+sbatch: error: Batch job submission failed: Invalid account or account/partition combination specified
+
+rule gatk_cov_pattern:
+    input: priority_indv_files/cigar-test/cigar-test.chr_22.realigned.bam, priority_indv_files/cigar-test/cigar-test.chr_22.realigned.bai, priority_indv_files/cigar-test/.cigar-test.chr_22.realigned.bam.ok, /data/refseq/tooldata/GATKbundle/2.8/b37/human_g1k_v37.fasta, /data/refseq/tooldata/GATKbundle/2.8/b37/Mills_and_1000G_gold_standard.indels.b37.vcf, /data/refseq/tooldata/GATKbundle/2.8/b37/dbsnp_138.b37.vcf
+    output: priority_indv_files/cigar-test/cigar-test.chr_22.recal.table, priority_indv_files/cigar-test/.cigar-test.chr_22.recal.table.ok
+    jobid: 7
+    wildcards: wcard=cigar-test, chrom=22
+
+sbatch: error: Batch job submission failed: Invalid account or account/partition combination specified
+
+rule gatk_apply:
+    input: priority_indv_files/cigar-test/cigar-test.chr_22.realigned.bam, priority_indv_files/cigar-test/cigar-test.chr_22.realigned.bai, priority_indv_files/cigar-test/.cigar-test.chr_22.realigned.bam.ok, /data/refseq/tooldata/GATKbundle/2.8/b37/human_g1k_v37.fasta, priority_indv_files/cigar-test/cigar-test.chr_22.recal.table
+    output: priority_indv_files/cigar-test/cigar-test.chr_22.recal.bam, priority_indv_files/cigar-test/cigar-test.chr_22.recal.bai
+    jobid: 5
+    wildcards: wcard=cigar-test, chrom=22
+
+sbatch: error: Batch job submission failed: Invalid account or account/partition combination specified
+
+rule gatk_gvcf_step1:
+    input: priority_indv_files/cigar-test/cigar-test.chr_22.recal.bam, priority_indv_files/cigar-test/cigar-test.chr_22.recal.bai, /data/refseq/tooldata/GATKbundle/2.8/b37/human_g1k_v37.fasta
+    output: priority_indv_files/cigar-test/cigar-test.chr_22.rawGvcf, priority_indv_files/cigar-test/cigar-test.chr_22.rawGvcf.idx
+    jobid: 3
+    wildcards: wcard=cigar-test, chrom=22
+
+sbatch: error: Batch job submission failed: Invalid account or account/partition combination specified
+
+rule gvcf_create_list:
+    input: priority_indv_files/cigar-test/cigar-test.chr_22.rawGvcf
+    output: chrom_22.gvcf.list
+    jobid: 4
+    wildcards: chrom=22
+
+sbatch: error: Batch job submission failed: Invalid account or account/partition combination specified
+
+rule gvcf_combine_cwise:
+    input: priority_indv_files/cigar-test/cigar-test.chr_22.rawGvcf, chrom_22.gvcf.list, /data/refseq/tooldata/GATKbundle/2.8/b37/human_g1k_v37.fasta
+    output: priority_merged_files/priority.chr_22.mergedGvcf, priority_merged_files/priority.chr_22.mergedGvcf.idx
+    jobid: 2
+    wildcards: mergename=priority, chrom=22
+
+sbatch: error: Batch job submission failed: Invalid account or account/partition combination specified
+
+rule genotype_gvcf:
+    input: priority_merged_files/priority.chr_22.mergedGvcf, /data/refseq/tooldata/GATKbundle/2.8/b37/human_g1k_v37.fasta
+    output: priority_merged_files/priority.chr_22.vcf
+    jobid: 1
+    wildcards: mergename=priority, chrom=22
+
+sbatch: error: Batch job submission failed: Invalid account or account/partition combination specified
+
+localrule priority_all:
+    input: priority_merged_files/priority.chr_22.vcf
+    jobid: 0
+
+Finished job 0.
+1 of 15 steps (7%) done

@@ -1,0 +1,7 @@
+include: '/faststorage/home/veera/pipelines/ipsych-GATK/bamtosam.snake' 
+include: '/faststorage/home/veera/pipelines/ipsych-GATK/picard.snake' 
+include: '/faststorage/home/veera/pipelines/ipsych-GATK/gatk_pre.snake' 
+include: '/faststorage/home/veera/pipelines/ipsych-GATK/combine_gvcf.snake' 
+ 
+rule priority_all:
+	 input:'priority_merged_files/priority.chr_22.vcf',
